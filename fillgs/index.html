@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="FillGS: Filling Observation Gaps in 4D Gaussian Splatting via Viewpoint-Time Selection and Generative Refinement">
+  <meta name="keywords" content="FillGS, 3D Gaussian Splatting, 4D Gaussian Splatting, 3DGS, 4DGS, Takashi Otonari">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FillGS: Filling Observation Gaps in 4D Gaussian Splatting via Viewpoint-Time Selection and Generative
+    Refinement</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QYZVPGPXHN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-QYZVPGPXHN');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+
+</head>
+
+<body>
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-2 publication-title">FillGS: Filling Observation Gaps in 4D Gaussian Splatting via
+              Viewpoint-Time Selection and Generative Refinement
+            </h1>
+            <h2 class="is-2 publication-conf">ECCV 2026</h2>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="../">Takashi Otonari</a>,</span>
+              <span class="author-block">
+                <a href="https://scholar.google.com/citations?user=rE9iY5MAAAAJ&hl=en">Toshihiko Yamasaki</a>,
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">The University of Tokyo</span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/dummy.pdf" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Teaser. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="content has-text-justified">
+            <image src="./static/images/teaser.png" alt="Teaser" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              4D Gaussian Splatting (4DGS) can render dynamic scenes photorealistically. However, with limited viewpoint
+              coverage, some spatiotemporal regions remain sparsely observed, leading to artifacts, particularly under
+              large motion. Existing approaches leveraging generative models rely on heuristic virtual-viewpoint
+              selection and refine the rendered views. As a result, they cannot actively explore such sparsely observed
+              regions.
+            </p>
+            <p>
+              To address this issue, we propose a pipeline that actively selects spatiotemporal virtual
+              viewpoints to improve 4DGS reconstruction. Our method selects virtual viewpoints for generative
+              enhancement based on the rendering sensitivity and motion-aware observation density of 4D Gaussians,
+              prioritizing views that alleviate observation sparsity. In the refined images, we filter out regions that
+              conflict with captured observations or are likely to contain generative errors and then fine-tune 4DGS
+              using only the reliable regions. </p>
+            <p>
+              We evaluate our method on multi-view video benchmarks using new
+              train/test splits designed to induce observation gaps. Results show consistent improvements over prior
+              viewpoint selection strategies and fine-tuning methods in both qualitative and quantitative evaluations,
+              while reducing artifacts. </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Teaser. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">FillGS Pipeline</h2>
+          <div class="content has-text-justified">
+            <div>
+              <img src="./static/images/overall_pipeline.png" alt="Overview of FillGS" />
+              <p>
+                FillGS fills observation gaps in 4D Gaussian Splatting through<br>
+                1. Spatiotemporal virtual-viewpoint selection<br>
+                2. Diffusion-based generative refinement<br>
+                3. Robust fine-tuning with reliable generated regions
+              </p>
+              <p>
+                FillGS actively selects viewpoint-time candidates that observe under-constrained 4D Gaussians. Starting
+                viewpoints are chosen based on both reconstruction error and local rendering sensitivity, so that
+                regions with unstable renderings are prioritized for exploration. Candidate virtual viewpoints are then
+                scored using a motion-aware observation deficiency measure, which assigns higher priority to fast-moving
+                Gaussians that have been observed only sparsely. Rendered views from the selected virtual viewpoints are
+                refined by a video diffusion model, and 4DGS is fine-tuned using consistency and co-visibility masks to
+                suppress generative errors and avoid degrading well-observed regions. </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Teaser. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Results</h2>
+          <div class="content has-text-justified">
+            <div class="publication-video">
+              <div class="content has-text-centered">
+                <video id="replay-video" controls muted preload playsinline width="100%">
+                  <source src="./static/videos/1.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+            <div class="publication-video">
+              <div class="content has-text-centered">
+                <video id="replay-video" controls muted preload playsinline width="100%">
+                  <source src="./static/videos/2.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Concurrent Work. -->
+      <div class="columns is-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">References</h2>
+          <ul>
+            We sincerely thank the authors of the prior works. In particular, ExploreGS has been especially inspiring
+            for our research.
+            <li><a href="https://exploregs.github.io/" target="_blank">ExploreGS</a></li>
+            <li><a href="https://github.com/JeongminB/E-D3DGS" target="_blank">E-D3DGS</a></li>
+            <li><a href="https://github.com/facebookresearch/Neural_3D_Video" target="_blank">Neural 3D Video</a></li>
+            <li><a href="https://www.interdigital.com/data_sets/light-field-dataset" target="_blank">Technicolor</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!--/ Concurrent Work. -->
+
+    </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@inproceedings{otonari2026fillgs,
+  author    = {Otonari, Takashi and Yamasaki, Toshihiko},
+  title     = {FillGS: Filling Observation Gaps in 4D Gaussian Splatting via Viewpoint-Time Selection and Generative Refinement},
+  booktitle   = {ECCV},
+  year      = {2026},
+}</code></pre>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              We thank the authors of <a href="https://nerfies.github.io/" target="_blank">Nerfies</a> that kindly open
+              sourced the template of this website.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
